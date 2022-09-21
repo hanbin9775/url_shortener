@@ -25,6 +25,7 @@ export default class UrlController {
         ...validateReq.data.body,
       };
       const result = await Urls.add(reqParams);
+      res.setHeader("Access-Control-Allow-Origin", "*");
       return res.status(200).json(result);
     } catch (err) {
       return res.status(500);

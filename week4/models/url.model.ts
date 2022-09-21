@@ -3,11 +3,11 @@ import FirebaseAdmin from './commons/firebase_admin.model';
 const COLLECTION_NAME = 'urls';
 
 class UrlType {
-    private urls: Map<string, string>;
+    // private urls: Map<string, string>;
     private UrlStore;
 
     constructor() {
-        this.urls = new Map();
+        // this.urls = new Map();
         this.UrlStore = FirebaseAdmin.getInstance().Firestore.collection(COLLECTION_NAME);
     }
 

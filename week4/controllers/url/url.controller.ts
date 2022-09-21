@@ -1,6 +1,6 @@
 import { NextApiRequest as Request, NextApiResponse as Response } from 'next';
 import validateParamWithData from '../../models/commons/req_validator';
-import FirebaseAdmin from '../../models/commons/firebase_admin.model';
+// import FirebaseAdmin from '../../models/commons/firebase_admin.model';
 import { IAddUrlReq } from './interface/IAddUrlReq';
 import { JSCAddUrl } from './jsc/JSCAddUrl';
 import { Urls } from '../../models/url.model';

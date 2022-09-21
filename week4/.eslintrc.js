@@ -16,7 +16,7 @@ module.exports = {
       jsx: true,
     },
     project: './tsconfig.json',
-    tsConfigRootDir: __dirname/week4
+    // tsConfigRootDir: __dirname/week4
   },
   env: {
     browser: true,

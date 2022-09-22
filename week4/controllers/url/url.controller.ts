@@ -1,6 +1,5 @@
 import { NextApiRequest as Request, NextApiResponse as Response } from 'next';
 import validateParamWithData from '../../models/commons/req_validator';
-// import FirebaseAdmin from '../../models/commons/firebase_admin.model';
 import { IAddUrlReq } from './interface/IAddUrlReq';
 import { JSCAddUrl } from './jsc/JSCAddUrl';
 import { Urls } from '../../models/url.model';
@@ -30,5 +29,10 @@ export default class UrlController {
     } catch (err) {
       return res.status(500);
     }
+  }
+
+  static async findOriginalUrl(req: Request, res: Response) {
+    const result = await Urls.findOriginalUrlByShortenUrl(req.body.shortenPath);
+    return res.status(200).json(result);
   }
 }

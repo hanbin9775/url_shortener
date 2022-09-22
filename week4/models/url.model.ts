@@ -3,43 +3,67 @@ import FirebaseAdmin from './commons/firebase_admin.model';
 const COLLECTION_NAME = 'urls';
 
 class UrlType {
-    // private urls: Map<string, string>;
     private UrlStore;
+    private tailIndex;
 
     constructor() {
-        // this.urls = new Map();
         this.UrlStore = FirebaseAdmin.getInstance().Firestore.collection(COLLECTION_NAME);
+        this.tailIndex = 0;
     }
 
-    UrlDoc(urlId: string) {
-        return this.UrlStore.doc(urlId);
+    async init() {
+       const curTailIndex = await this.getTailIndex();
+       console.log(curTailIndex)
+       this.tailIndex = curTailIndex;
     }
 
-    UrlCollection(urlId: string) {
-        return this.UrlStore.doc(urlId).collection('urls');
+    async shortenPath() {
+        this.init();
+        // const result = await this.UrlStore.where('originalUrl', '==', originalUrl).get();
+        // console.log(result)
+        //기존 url 반환
+        // if(result) {
+        //     return result.data()?.shortenUrl;
+        // }
+        
+        
+        return String.fromCharCode((this.tailIndex % 62) + 65);
     }
 
-    shortenUrl(originUrl: string) {
-        // 일단은 그대로 반환하자.
-        return originUrl;
+    async findOriginalUrlByShortenUrl(shortenPath: string) {
+        try {
+            const result = await this.UrlStore.doc(shortenPath).get();
+            const originalUrl = result.data()?.originalUrl;
+            return originalUrl;
+        } catch (err) {
+            throw err;
+        }
     }
 
     async add(args: {
         originalUrl: string;
     }) {
+        const shortenPath = await this.shortenPath()
         const addData = {
-            url: this.shortenUrl(args.originalUrl)
+            originalUrl: args.originalUrl,
+            shortenUrl: `https://shrt-hanbin9775.vercel.app/${shortenPath}`
         }
-
+      
         try {
-            const result = await this.UrlStore.add(addData);
-            return {
-                id: result.id,
-                ...addData
-            };
+            await this.UrlStore.doc(shortenPath).set(addData);
+            return addData;
         } catch (err) {
             throw err;
         }
+    }
+
+    setTailIndex(newIndex: number) {
+        this.tailIndex = newIndex;
+    }
+
+    async getTailIndex() {
+        const urlLists = await this.UrlStore.listDocuments();
+        return urlLists.length;
     }
 }
 

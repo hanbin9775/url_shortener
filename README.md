@@ -1,6 +1,6 @@
 # URL Shortener
 
-## Client
+## FE
 
 ### Built with
 
@@ -12,12 +12,16 @@ https://user-images.githubusercontent.com/37659866/193602925-7d8d261e-f4ac-4109-
 
 
 
-## Server
+## BE
 
 ### Built with
 
 - Next.js
 - Firebase
+
+### Deploy with
+
+- Vercel
 
 ### Demo
 
